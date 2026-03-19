@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Churrascaria Fazenda Do Brasil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Righteous&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&family=Pacifico&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brasil-green:  #1A6B2A;
+      --brasil-green2: #228B38;
+      --brasil-yellow: #F5C800;
+      --brasil-gold:   #E8A800;
+      --brasil-blue:   #009FD4;
+      --brasil-sky:    #5BC8E8;
+      --brasil-orange: #E85D04;
+      --brasil-red:    #C0392B;
+      --jungle-dark:   #0D2E14;
+      --jungle-mid:    #163A1E;
+      --cream:         #FEF9EC;
+      --warm-white:    #FFFDF5;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--warm-white);
+      color: var(--jungle-dark);
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ─── CUSTOM CURSOR ─── */
+    .cursor {
+      width: 20px; height: 20px;
+      border: 2px solid var(--brasil-yellow);
+      border-radius: 50%;
+      position: fixed; pointer-events: none;
+      z-index: 9999; transition: transform 0.15s, background 0.2s;
+      transform: translate(-50%, -50%);
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      padding: 0.9rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(13, 46, 20, 0.97);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 30px rgba(0,0,0,0.4);
+      border-bottom: 2px solid var(--brasil-yellow);
+    }
+    .nav-logo img { height: 60px; transition: height 0.3s; }
+    nav.scrolled .nav-logo img { height: 48px; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; color: rgba(255,255,255,0.9);
+      transition: color 0.3s; padding: 0.3rem 0;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; right: 100%;
+      height: 2px; background: var(--brasil-yellow);
+      transition: right 0.3s;
+    }
+    .nav-links a:hover::after { right: 0; }
+    .nav-links a:hover { color: var(--brasil-yellow); }
+    .nav-cta {
+      background: var(--brasil-yellow) !important;
+      color: var(--jungle-dark) !important;
+      padding: 0.55rem 1.4rem !important;
+      border-radius: 30px; font-weight: 800 !important;
+      transition: transform 0.2s, box-shadow 0.2s !important;
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,200,0,0.5); }
+    .nav-cta::after { display: none !important; }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      background: var(--jungle-dark);
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    /* Jungle gradient layers */
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(26,107,42,0.5) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 30%, rgba(0,159,212,0.2) 0%, transparent 40%),
+        radial-gradient(ellipse at 60% 80%, rgba(232,93,4,0.15) 0%, transparent 35%),
+        linear-gradient(160deg, #0A2010 0%, #0D2E14 50%, #071A0A 100%);
+    }
+    /* Animated leaf silhouettes */
+    .leaf {
+      position: absolute; pointer-events: none;
+      opacity: 0.12; font-size: 4rem;
+      animation: sway linear infinite;
+    }
+    @keyframes sway {
+      0%, 100% { transform: rotate(var(--r0)) scale(1); }
+      50% { transform: rotate(var(--r1)) scale(1.05); }
+    }
+    /* Floating particles */
+    .particle {
+      position: absolute; border-radius: 50%;
+      pointer-events: none; animation: drift linear infinite;
+    }
+    @keyframes drift {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 0.7; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+    /* Diagonal color band */
+    .hero-band {
+      position: absolute; right: -5%; top: 0; bottom: 0;
+      width: 45%;
+      background: linear-gradient(175deg, rgba(26,107,42,0.3) 0%, rgba(0,159,212,0.15) 100%);
+      clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 5;
+      padding: 8rem 3rem 4rem 8%;
+      max-width: 700px;
+      animation: heroIn 1.2s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .hero-flag {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: rgba(245,200,0,0.15); border: 1px solid rgba(245,200,0,0.3);
+      border-radius: 30px; padding: 0.4rem 1rem;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--brasil-yellow);
+      margin-bottom: 1.5rem;
+      animation: heroIn 1s 0.2s both;
+    }
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      line-height: 0.88; letter-spacing: 0.02em;
+      color: white; margin-bottom: 0.2rem;
+      animation: heroIn 1s 0.3s both;
+    }
+    .hero-title .green { color: var(--brasil-green2); }
+    .hero-title .yellow { color: var(--brasil-yellow); }
+    .hero-title .blue { color: var(--brasil-sky); }
+    .hero-sub {
+      font-family: 'Righteous', sans-serif;
+      font-size: clamp(1.1rem, 3vw, 1.8rem);
+      color: var(--brasil-yellow); letter-spacing: 0.08em;
+      margin-bottom: 1.5rem;
+      animation: heroIn 1s 0.45s both;
+    }
+    .hero-desc {
+      font-size: 1.05rem; line-height: 1.8;
+      color: rgba(255,255,255,0.65);
+      max-width: 480px; margin-bottom: 2.5rem;
+      animation: heroIn 1s 0.55s both;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: heroIn 1s 0.7s both;
+    }
+    .btn-yellow {
+      background: var(--brasil-yellow); color: var(--jungle-dark);
+      font-weight: 800; font-family: 'Nunito', sans-serif;
+      font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 1rem 2.2rem; border-radius: 4px; border: none;
+      cursor: pointer; text-decoration: none; display: inline-block;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(245,200,0,0.35);
+    }
+    .btn-yellow:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(245,200,0,0.55); }
+    .btn-green {
+      background: transparent; color: white;
+      font-weight: 700; font-family: 'Nunito', sans-serif;
+      font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 1rem 2.2rem; border-radius: 4px;
+      border: 2px solid rgba(255,255,255,0.3);
+      cursor: pointer; text-decoration: none; display: inline-block;
+      transition: border-color 0.3s, color 0.3s, transform 0.2s;
+    }
+    .btn-green:hover { border-color: var(--brasil-green2); color: var(--brasil-green2); transform: translateY(-3px); }
+    /* Hero logo floating on right */
+    .hero-logo-float {
+      position: absolute; right: 5%; top: 50%;
+      transform: translateY(-50%);
+      z-index: 4; width: min(35%, 380px);
+      animation: floatLogo 6s ease-in-out infinite, heroLogoIn 1.2s 0.5s cubic-bezier(0.22,1,0.36,1) both;
+      filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6));
+    }
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(-50%) rotate(-1deg); }
+      50% { transform: translateY(calc(-50% - 15px)) rotate(1deg); }
+    }
+    @keyframes heroLogoIn {
+      from { opacity: 0; transform: translateY(-40%) scale(0.8); }
+      to { opacity: 1; transform: translateY(-50%) rotate(-1deg); }
+    }
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      color: rgba(255,255,255,0.35); font-size: 0.65rem;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      animation: heroIn 1s 1.2s both;
+    }
+    .scroll-chevrons { display: flex; flex-direction: column; align-items: center; gap: -4px; }
+    .chevron {
+      width: 16px; height: 16px; border-right: 2px solid var(--brasil-yellow);
+      border-bottom: 2px solid var(--brasil-yellow);
+      transform: rotate(45deg); animation: chevronBounce 1.5s ease-in-out infinite;
+    }
+    .chevron:nth-child(2) { animation-delay: 0.2s; margin-top: -8px; opacity: 0.6; }
+    @keyframes chevronBounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); opacity: 1; }
+      50% { transform: rotate(45deg) translateY(4px); opacity: 0.4; }
+    }
+
+    /* ─── DIAGONAL DIVIDER ─── */
+    .divider-green {
+      height: 80px; background: var(--brasil-green);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 40%);
+      margin-top: -2px;
+    }
+    .divider-cream {
+      height: 60px; background: var(--cream);
+      clip-path: polygon(0 60%, 100% 0, 100% 100%, 0 100%);
+      margin-bottom: -2px;
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      background: var(--jungle-dark);
+      padding: 6rem 2rem;
+      position: relative; overflow: hidden;
+    }
+    #about::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 80% 50%, rgba(26,107,42,0.2) 0%, transparent 55%),
+        radial-gradient(ellipse at 10% 80%, rgba(0,159,212,0.1) 0%, transparent 40%);
+    }
+    .about-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center; position: relative;
+    }
+    .about-visual { position: relative; }
+    .about-circle {
+      width: 100%; aspect-ratio: 1;
+      max-width: 460px;
+      border-radius: 50%;
+      background: conic-gradient(var(--brasil-green) 0deg 120deg, var(--brasil-yellow) 120deg 240deg, var(--brasil-blue) 240deg 360deg);
+      padding: 6px;
+      animation: spinSlow 20s linear infinite;
+    }
+    @keyframes spinSlow { to { transform: rotate(360deg); } }
+    .about-circle-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, #1A6B2A, #0D2E14);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8rem; position: relative; overflow: hidden;
+    }
+    .about-circle-inner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 60% 60%, rgba(232,93,4,0.3), transparent 50%);
+    }
+    .about-badge {
+      position: absolute; bottom: 5%; right: -5%;
+      background: var(--brasil-yellow); color: var(--jungle-dark);
+      border-radius: 50%; width: 110px; height: 110px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      box-shadow: 0 8px 30px rgba(245,200,0,0.5);
+      animation: badgePulse 3s ease-in-out infinite;
+    }
+    @keyframes badgePulse {
+      0%, 100% { transform: scale(1) rotate(-5deg); }
+      50% { transform: scale(1.06) rotate(-5deg); }
+    }
+    .about-badge .big { font-size: 1.8rem; line-height: 1; }
+    .about-badge .small { font-size: 0.65rem; letter-spacing: 0.1em; font-family: 'Nunito', sans-serif; font-weight: 800; text-align: center; line-height: 1.3; }
+    .about-text { color: white; }
+    .section-flag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; font-weight: 800; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--brasil-yellow);
+      margin-bottom: 1rem;
+    }
+    .section-flag::before, .section-flag::after {
+      content: ''; display: inline-block;
+      width: 20px; height: 2px; background: var(--brasil-yellow);
+    }
+    .section-title-big {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1; letter-spacing: 0.03em;
+      color: white; margin-bottom: 1.5rem;
+    }
+    .section-title-big span { color: var(--brasil-yellow); }
+    .about-body {
+      font-size: 1rem; line-height: 1.85;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 1rem;
+    }
+    .about-features {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem; margin-top: 2rem;
+    }
+    .feature-item {
+      display: flex; align-items: flex-start; gap: 0.8rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(245,200,0,0.12);
+      border-radius: 8px; padding: 1rem;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .feature-item:hover { border-color: rgba(245,200,0,0.4); background: rgba(245,200,0,0.05); }
+    .feature-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .feature-name { font-weight: 700; font-size: 0.85rem; color: var(--brasil-yellow); margin-bottom: 0.2rem; }
+    .feature-desc { font-size: 0.78rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+    /* ─── PLATS CAROUSEL ─── */
+    #plats {
+      background: var(--cream);
+      padding: 6rem 0;
+      position: relative; overflow: hidden;
+    }
+    #plats::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background-image: radial-gradient(circle, rgba(26,107,42,0.06) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .plats-header {
+      text-align: center; padding: 0 2rem 3.5rem;
+      position: relative;
+    }
+    .plats-header .section-title-big { color: var(--jungle-dark); }
+    .plats-header .section-title-big span { color: var(--brasil-orange); }
+    /* INFINITE SCROLL CAROUSEL */
+    .marquee-wrapper { overflow: hidden; margin-bottom: 1rem; }
+    .marquee-track {
+      display: flex; gap: 1.5rem;
+      animation: marquee 30s linear infinite;
+      width: max-content;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    .marquee-track-reverse { animation-direction: reverse; animation-duration: 25s; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+    .plat-card {
+      flex-shrink: 0; width: 280px;
+      background: white; border-radius: 16px;
+      overflow: hidden; box-shadow: 0 4px 20px rgba(13,46,20,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .plat-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 16px 40px rgba(13,46,20,0.18); }
+    .plat-img {
+      height: 190px; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; overflow: hidden;
+    }
+    .plat-img-bg { position: absolute; inset: 0; transition: transform 0.5s; }
+    .plat-card:hover .plat-img-bg { transform: scale(1.08); }
+    .plat-badge {
+      position: absolute; top: 0.8rem; right: 0.8rem;
+      background: var(--brasil-orange); color: white;
+      font-size: 0.6rem; font-weight: 800;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.25rem 0.6rem; border-radius: 20px;
+    }
+    .plat-body { padding: 1.2rem; }
+    .plat-name { font-family: 'Righteous', sans-serif; font-size: 1.05rem; color: var(--jungle-dark); margin-bottom: 0.4rem; }
+    .plat-desc { font-size: 0.78rem; color: rgba(13,46,20,0.55); line-height: 1.6; margin-bottom: 0.8rem; }
+    .plat-footer { display: flex; justify-content: space-between; align-items: center; }
+    .plat-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--brasil-green); letter-spacing: 0.05em; }
+    .plat-flag { font-size: 1rem; }
+
+    /* ─── MENU TABS ─── */
+    #menu {
+      background: var(--jungle-dark);
+      padding: 6rem 2rem;
+      position: relative; overflow: hidden;
+    }
+    #menu::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent, transparent 40px,
+        rgba(26,107,42,0.03) 40px, rgba(26,107,42,0.03) 80px
+      );
+    }
+    .menu-inner { max-width: 1100px; margin: 0 auto; position: relative; }
+    .menu-header { text-align: center; margin-bottom: 3rem; }
+    .menu-header .section-title-big { color: white; }
+    .menu-tabs {
+      display: flex; gap: 0.6rem; flex-wrap: wrap;
+      justify-content: center; margin-bottom: 3rem;
+    }
+    .tab-btn {
+      background: rgba(255,255,255,0.06);
+      border: 2px solid rgba(245,200,0,0.2);
+      color: rgba(255,255,255,0.6);
+      padding: 0.6rem 1.4rem; border-radius: 30px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.3s;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--brasil-yellow);
+      border-color: var(--brasil-yellow);
+      color: var(--jungle-dark);
+    }
+    .menu-panel { display: none; }
+    .menu-panel.active { display: block; animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.2rem; }
+    .menu-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(245,200,0,0.1);
+      border-radius: 12px; padding: 1.4rem;
+      display: flex; gap: 1rem; align-items: flex-start;
+      transition: border-color 0.3s, background 0.3s, transform 0.2s;
+    }
+    .menu-item:hover { border-color: rgba(245,200,0,0.4); background: rgba(245,200,0,0.05); transform: translateX(4px); }
+    .menu-emoji { font-size: 2rem; flex-shrink: 0; }
+    .menu-item-name { font-family: 'Righteous', sans-serif; font-size: 0.95rem; color: white; margin-bottom: 0.3rem; }
+    .menu-item-desc { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+    .menu-item-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--brasil-yellow); margin-top: 0.4rem; letter-spacing: 0.05em; }
+
+    /* ─── FOIRES ─── */
+    #foires {
+      background: var(--brasil-green);
+      padding: 6rem 0;
+      position: relative; overflow: hidden;
+    }
+    #foires::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 10% 50%, rgba(0,0,0,0.3) 0%, transparent 40%),
+        radial-gradient(circle at 90% 50%, rgba(0,0,0,0.2) 0%, transparent 40%);
+    }
+    .foires-header { text-align: center; padding: 0 2rem 3.5rem; position: relative; }
+    .foires-header .section-title-big { color: white; }
+    .foires-header .section-title-big span { color: var(--brasil-yellow); }
+    .foires-desc { color: rgba(255,255,255,0.7); font-size: 1rem; max-width: 500px; margin: 1rem auto 0; }
+    /* TICKER RIBBON */
+    .foires-ribbon {
+      background: var(--brasil-yellow);
+      padding: 0.8rem 0;
+      overflow: hidden;
+      border-top: 3px solid var(--brasil-gold);
+      border-bottom: 3px solid var(--brasil-gold);
+      margin-bottom: 2rem;
+    }
+    .ribbon-track {
+      display: flex; gap: 3rem;
+      animation: ribbonScroll 20s linear infinite;
+      white-space: nowrap; width: max-content;
+    }
+    @keyframes ribbonScroll { to { transform: translateX(-50%); } }
+    .ribbon-item {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem; letter-spacing: 0.15em;
+      color: var(--jungle-dark);
+      display: inline-flex; align-items: center; gap: 0.8rem;
+    }
+    .ribbon-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brasil-green); }
+    /* FOIRES CARDS */
+    .foires-cards-wrapper { overflow: hidden; position: relative; }
+    .foires-track {
+      display: flex; gap: 1.5rem; padding: 0 2rem;
+      transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+    }
+    .foire-card {
+      flex: 0 0 300px; background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px; padding: 2rem;
+      transition: transform 0.3s, border-color 0.3s, background 0.3s;
+      cursor: pointer; position: relative; overflow: hidden;
+    }
+    .foire-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--brasil-yellow), var(--brasil-orange));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s;
+    }
+    .foire-card:hover::before { transform: scaleX(1); }
+    .foire-card:hover { transform: translateY(-6px); border-color: rgba(245,200,0,0.4); background: rgba(0,0,0,0.4); }
+    .foire-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .foire-ville { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: white; letter-spacing: 0.05em; }
+    .foire-event { font-family: 'Righteous', sans-serif; font-size: 0.9rem; color: var(--brasil-yellow); margin-bottom: 0.8rem; }
+    .foire-dates { font-size: 0.8rem; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem; }
+    .foire-lieu { font-size: 0.78rem; color: rgba(255,255,255,0.45); }
+    .foire-status {
+      display: inline-block; margin-top: 1rem;
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 0.15em;
+      text-transform: uppercase; padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+    }
+    .foire-status.upcoming { background: rgba(245,200,0,0.2); color: var(--brasil-yellow); }
+    .foire-status.soon { background: rgba(232,93,4,0.2); color: #FF8A50; }
+    .foires-nav {
+      display: flex; justify-content: center; gap: 1rem; margin-top: 2.5rem;
+      padding: 0 2rem;
+    }
+    .foire-btn {
+      width: 50px; height: 50px; border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.25);
+      color: white; font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s;
+    }
+    .foire-btn:hover { background: var(--brasil-yellow); border-color: var(--brasil-yellow); color: var(--jungle-dark); }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      background: var(--cream);
+      padding: 6rem 2rem;
+    }
+    .contact-inner {
+      max-width: 1000px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+      align-items: center;
+    }
+    .contact-info .section-title-big { color: var(--jungle-dark); }
+    .contact-info .section-title-big span { color: var(--brasil-green); }
+    .contact-cards { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    .contact-card {
+      display: flex; align-items: center; gap: 1.2rem;
+      background: white; border-radius: 12px; padding: 1.2rem 1.5rem;
+      box-shadow: 0 2px 15px rgba(13,46,20,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .contact-card:hover { transform: translateX(6px); box-shadow: 0 6px 25px rgba(13,46,20,0.12); }
+    .contact-icon {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--brasil-green), var(--brasil-green2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .contact-label { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: var(--brasil-green); margin-bottom: 0.2rem; }
+    .contact-val { font-size: 0.95rem; color: var(--jungle-dark); font-weight: 600; }
+    /* Contact form */
+    .contact-form { background: var(--jungle-dark); border-radius: 20px; padding: 2.5rem; }
+    .contact-form h3 {
+      font-family: 'Righteous', sans-serif;
+      font-size: 1.4rem; color: var(--brasil-yellow);
+      margin-bottom: 1.5rem;
+    }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; background: rgba(255,255,255,0.06);
+      border: 1.5px solid rgba(245,200,0,0.15);
+      border-radius: 8px; padding: 0.85rem 1rem;
+      color: white; font-family: 'Nunito', sans-serif; font-size: 0.9rem;
+      transition: border-color 0.3s;
+      outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      border-color: var(--brasil-yellow);
+    }
+    .form-group textarea { min-height: 100px; resize: vertical; }
+    .form-group select option { background: var(--jungle-dark); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .btn-submit {
+      width: 100%; padding: 1rem;
+      background: linear-gradient(135deg, var(--brasil-yellow), var(--brasil-gold));
+      color: var(--jungle-dark); font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase; border: none; border-radius: 8px;
+      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(245,200,0,0.4); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #060F08;
+      padding: 3.5rem 2rem 1.5rem;
+      border-top: 3px solid var(--brasil-yellow);
+    }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem; padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-brand img { height: 80px; margin-bottom: 1rem; }
+    .footer-tagline { font-size: 0.85rem; color: rgba(255,255,255,0.4); line-height: 1.7; font-style: italic; margin-bottom: 1.2rem; }
+    .footer-social { display: flex; gap: 0.8rem; }
+    .social-link {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1.5px solid rgba(245,200,0,0.25);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 0.9rem; color: rgba(255,255,255,0.5);
+      transition: all 0.3s;
+    }
+    .social-link:hover { border-color: var(--brasil-yellow); color: var(--brasil-yellow); background: rgba(245,200,0,0.1); }
+    .footer-col h4 { font-family: 'Righteous', sans-serif; font-size: 0.85rem; color: var(--brasil-yellow); letter-spacing: 0.1em; margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
+    .footer-col ul a { color: rgba(255,255,255,0.4); font-size: 0.85rem; text-decoration: none; transition: color 0.3s; }
+    .footer-col ul a:hover { color: var(--brasil-yellow); }
+    .footer-bottom {
+      padding-top: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.2); }
+    .footer-flags { font-size: 1.2rem; letter-spacing: 0.1em; }
+
+    /* ─── REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(25px); transition: opacity 0.8s, transform 0.8s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.8s, transform 0.8s; }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.8s, transform 0.8s; }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 960px) {
+      .hero-logo-float { display: none; }
+      .hero-content { padding: 8rem 2rem 4rem; max-width: 100%; text-align: center; }
+      .hero-actions { justify-content: center; }
+      .about-inner { grid-template-columns: 1fr; }
+      .about-circle { max-width: 280px; margin: 0 auto; }
+      .contact-inner { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+      nav { padding: 0.8rem 1.5rem; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .about-features { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-title { font-size: 3.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <img src="/mnt/user-data/uploads/logo_chur.png" alt="Fazenda Do Brasil" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">Nossa História</a></li>
+    <li><a href="#plats">Nos Plats</a></li>
+    <li><a href="#menu">La Carte</a></li>
+    <li><a href="#foires">Nos Foires</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-cta">📍 Nous trouver</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div id="leafContainer"></div>
+  <div id="particleContainer"></div>
+  <div class="hero-band"></div>
+
+  <div class="hero-content">
+    <div class="hero-flag">🇧🇷 Autêntico sabor brasileiro</div>
+    <h1 class="hero-title">
+      <span class="green">CHUR</span><span class="yellow">RAS</span><span class="blue">CA</span><span style="color:white">RIA</span>
+    </h1>
+    <p class="hero-sub">Fazenda Do Brasil ™</p>
+    <p class="hero-desc">
+      L'authentique churrascaria brésilienne qui parcourt les foires et salons de France. 
+      Grillades au feu de bois, caïpirinhas fraîches et l'âme du Brésil dans chaque bouchée. 🔥
+    </p>
+    <div class="hero-actions">
+      <a href="#plats" class="btn-yellow">🥩 Découvrir la carte</a>
+      <a href="#foires" class="btn-green">📅 Nos prochaines foires</a>
+    </div>
+  </div>
+
+  <img src="/mnt/user-data/uploads/logo_chur.png" class="hero-logo-float" alt="Fazenda Do Brasil logo" />
+
+  <div class="hero-scroll">
+    <div class="scroll-chevrons">
+      <div class="chevron"></div>
+      <div class="chevron"></div>
+    </div>
+    <span>Descobrir</span>
+  </div>
+</section>
+
+<div class="divider-green"></div>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-visual reveal-left">
+      <div class="about-circle">
+        <div class="about-circle-inner">🦜</div>
+      </div>
+      <div class="about-badge">
+        <span class="big">+15</span>
+        <span class="small">ans de<br>passion</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <p class="section-flag reveal">Nossa História</p>
+      <h2 class="section-title-big reveal">Le <span>Brésil</span> s'invite<br>dans vos foires</h2>
+      <p class="about-body reveal">
+        Née d'une passion pour la culture brésilienne et ses saveurs incomparables, 
+        la Churrascaria Fazenda Do Brasil sillonne la France depuis plus de 15 ans, 
+        apportant avec elle l'authenticité des <em>churrascarias</em> de São Paulo et Rio.
+      </p>
+      <p class="about-body reveal">
+        De la Foire de Paris au Salon de l'Agriculture, nous dressons notre stand, 
+        allumons le feu de bois et laissons les arômes de la picanha grillée guider 
+        les visiteurs vers nous. Pas besoin de panneau — le nez suffit. 😄
+      </p>
+      <div class="about-features">
+        <div class="feature-item reveal">
+          <div class="feature-icon">🔥</div>
+          <div>
+            <div class="feature-name">Cuisson au feu de bois</div>
+            <div class="feature-desc">Tradition churrasco authentique, braises vives</div>
+          </div>
+        </div>
+        <div class="feature-item reveal">
+          <div class="feature-icon">🥩</div>
+          <div>
+            <div class="feature-name">Viandes sélectionnées</div>
+            <div class="feature-desc">Picanha, fraldinha, alcatra — les meilleures coupes</div>
+          </div>
+        </div>
+        <div class="feature-item reveal">
+          <div class="feature-icon">🇧🇷</div>
+          <div>
+            <div class="feature-name">100% Authentique</div>
+            <div class="feature-desc">Recettes familiales transmises de génération en génération</div>
+          </div>
+        </div>
+        <div class="feature-item reveal">
+          <div class="feature-icon">🎉</div>
+          <div>
+            <div class="feature-name">Ambiance festive</div>
+            <div class="feature-desc">Musique, couleurs et chaleur brésilienne garanties</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="height:60px;background:linear-gradient(to bottom right,var(--jungle-dark) 50%,var(--cream) 50%)"></div>
+
+<!-- ── PLATS ── -->
+<section id="plats">
+  <div class="plats-header">
+    <p class="section-flag reveal" style="color:var(--brasil-orange);justify-content:center">Nossos Pratos</p>
+    <h2 class="section-title-big reveal">Nos Plats <span>Signatures</span></h2>
+    <p class="reveal" style="color:rgba(13,46,20,0.55);font-size:0.95rem;margin-top:0.5rem">Passez la souris pour mettre pause 🔥</p>
+  </div>
+
+  <!-- ROW 1 -->
+  <div class="marquee-wrapper">
+    <div class="marquee-track" id="row1">
+      <!-- cards duplicated for infinite effect via JS -->
+    </div>
+  </div>
+  <!-- ROW 2 -->
+  <div class="marquee-wrapper" style="margin-top:1.5rem">
+    <div class="marquee-track marquee-track-reverse" id="row2"></div>
+  </div>
+</section>
+
+<!-- ── MENU ── -->
+<section id="menu">
+  <div class="menu-inner">
+    <div class="menu-header">
+      <p class="section-flag reveal" style="color:var(--brasil-yellow);justify-content:center">A Nossa Carta</p>
+      <h2 class="section-title-big reveal" style="color:white">La <span style="color:var(--brasil-yellow)">Carte</span> Complète</h2>
+    </div>
+    <div class="menu-tabs reveal">
+      <button class="tab-btn active" data-tab="viandes">🥩 Viandes & Formules</button>
+      <button class="tab-btn" data-tab="salades">🥗 Salades & Poissons</button>
+      <button class="tab-btn" data-tab="vins">🍷 Vins & Champagne</button>
+      <button class="tab-btn" data-tab="boissons">🍹 Cocktails & Boissons</button>
+      <button class="tab-btn" data-tab="desserts">🍮 Desserts</button>
+    </div>
+
+    <div class="menu-panel active" id="tab-viandes">
+      <p style="color:rgba(255,255,255,0.4);font-size:0.8rem;margin-bottom:1.5rem;font-style:italic">✅ Toutes nos viandes sont accompagnées de riz blanc parfumé, feijoada et frites maison</p>
+      <div class="menu-grid">
+        <div class="menu-item"><div class="menu-emoji">🍗</div><div><div class="menu-item-name">Poulet</div><div class="menu-item-desc">Mariné aux herbes fraîches et huile d'olive</div><div class="menu-item-price">19 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🥓</div><div><div class="menu-item-name">Rôtie de Porc</div><div class="menu-item-desc">Marinée aux herbes fraîches, huile d'olive</div><div class="menu-item-price">21 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🥩</div><div><div class="menu-item-name">Picanha ⭐</div><div class="menu-item-desc">Cœur de rumsteck grillé au gros sel de mer</div><div class="menu-item-price">26 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🍖</div><div><div class="menu-item-name">Gigot d'Agneau</div><div class="menu-item-desc">Mariné aux herbes fraîches, huile d'olive</div><div class="menu-item-price">26 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🍽️</div><div><div class="menu-item-name">Formule Fazenda</div><div class="menu-item-desc">3 Viandes : Poulet, saucisse et rôti de porc marinées aux herbes fraîches</div><div class="menu-item-price">26 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🔥</div><div><div class="menu-item-name">Formule Fronteira</div><div class="menu-item-desc">Plat + Dessert — 3 Viandes : Poulet, saucisse, rôti de porc + Dessert au choix</div><div class="menu-item-price">29 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🏆</div><div><div class="menu-item-name">Formule Churrasco</div><div class="menu-item-desc">Entrée + Plat + Dessert — Salade fraîcheur + 5 Viandes (Poulet, saucisse, porc, gigot d'agneau, picanha) + Dessert</div><div class="menu-item-price">38 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">👶</div><div><div class="menu-item-name">Formule Enfant (-10 ans)</div><div class="menu-item-desc">Saucisse ou poulet avec frites + Compote ou Boisson</div><div class="menu-item-price">10 €</div></div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="tab-salades">
+      <div class="menu-grid">
+        <div class="menu-item"><div class="menu-emoji">🐟</div><div><div class="menu-item-name">Salade de Thon</div><div class="menu-item-desc">Mesclun de salade, tomates crudités, thon, œufs</div><div class="menu-item-price">17 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🌴</div><div><div class="menu-item-name">Salade Tropicale</div><div class="menu-item-desc">Mesclun de salade, crudités, cœurs de palmier, ananas et crevettes décortiquées</div><div class="menu-item-price">19 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🍟</div><div><div class="menu-item-name">Assiette de Frites Maison</div><div class="menu-item-desc">Frites fraîches maison</div><div class="menu-item-price">4 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🌊</div><div><div class="menu-item-name">Muqueca de Peixe</div><div class="menu-item-desc">Poisson au lait de coco, accompagné de riz blanc parfumé</div><div class="menu-item-price">25 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🦐</div><div><div class="menu-item-name">Gambas</div><div class="menu-item-desc">5 pièces, sauce typique bahianaise, accompagnées de riz blanc parfumé</div><div class="menu-item-price">26 €</div></div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="tab-vins">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
+        <div>
+          <p style="font-family:'Righteous',sans-serif;color:var(--brasil-yellow);font-size:0.9rem;letter-spacing:0.1em;margin-bottom:1rem">🍷 VINS ROUGE — Bouteilles 75cl / 37,5cl</p>
+          <div class="menu-grid" style="grid-template-columns:1fr">
+            <div class="menu-item"><div class="menu-emoji">🍷</div><div><div class="menu-item-name">Bordeaux A.O.C</div><div class="menu-item-desc">75cl / 37,5cl — Verre 14cl</div><div class="menu-item-price">25 € / 15 € — Verre 6 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🍷</div><div><div class="menu-item-name">Chilien – Gato Negro</div><div class="menu-item-desc">75cl — Verre 14cl</div><div class="menu-item-price">28 € — Verre 7 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🍷</div><div><div class="menu-item-name">Tarani – IGP Comté Tolosan</div><div class="menu-item-desc">75cl</div><div class="menu-item-price">26 €</div></div></div>
+          </div>
+          <p style="font-family:'Righteous',sans-serif;color:var(--brasil-yellow);font-size:0.9rem;letter-spacing:0.1em;margin:1.5rem 0 1rem">🌸 VINS ROSÉS</p>
+          <div class="menu-grid" style="grid-template-columns:1fr">
+            <div class="menu-item"><div class="menu-emoji">🌸</div><div><div class="menu-item-name">Côte de Provence A.O.C</div><div class="menu-item-desc">75cl — Verre 14cl</div><div class="menu-item-price">27 € — Verre 7 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🌸</div><div><div class="menu-item-name">Tarani – IGP Comté Tolosan</div><div class="menu-item-desc">75cl — Verre 14cl</div><div class="menu-item-price">26 € — Verre 5 €</div></div></div>
+          </div>
+        </div>
+        <div>
+          <p style="font-family:'Righteous',sans-serif;color:var(--brasil-yellow);font-size:0.9rem;letter-spacing:0.1em;margin-bottom:1rem">🥂 VINS BLANCS</p>
+          <div class="menu-grid" style="grid-template-columns:1fr">
+            <div class="menu-item"><div class="menu-emoji">🥂</div><div><div class="menu-item-name">Cabernet Sauvignon – IGP</div><div class="menu-item-desc">75cl / 37,5cl — Verre 14cl</div><div class="menu-item-price">26 € / 16 € — Verre 6 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🥂</div><div><div class="menu-item-name">Chilien – Gato Negro</div><div class="menu-item-desc">75cl — Verre 14cl</div><div class="menu-item-price">28 € — Verre 7 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🥂</div><div><div class="menu-item-name">Tarani – IGP Comté Tolosan</div><div class="menu-item-desc">75cl</div><div class="menu-item-price">26 €</div></div></div>
+          </div>
+          <p style="font-family:'Righteous',sans-serif;color:var(--brasil-yellow);font-size:0.9rem;letter-spacing:0.1em;margin:1.5rem 0 1rem">🍾 CHAMPAGNE & DIGESTIFS</p>
+          <div class="menu-grid" style="grid-template-columns:1fr">
+            <div class="menu-item"><div class="menu-emoji">🍾</div><div><div class="menu-item-name">Champagne</div><div class="menu-item-desc">Bouteille / Coupe 12cl</div><div class="menu-item-price">59 € / 10 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🥃</div><div><div class="menu-item-name">Digestifs</div><div class="menu-item-desc">Cachaça / Rhum blanc / Tequila / Get 27</div><div class="menu-item-price">8 € / 7 € / 7 € / 7 €</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="tab-boissons">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
+        <div>
+          <p style="font-family:'Righteous',sans-serif;color:var(--brasil-yellow);font-size:0.9rem;letter-spacing:0.1em;margin-bottom:1rem">🍹 COCKTAILS</p>
+          <div class="menu-grid" style="grid-template-columns:1fr">
+            <div class="menu-item"><div class="menu-emoji">🍋</div><div><div class="menu-item-name">Caïpirinha / Caipi Black</div><div class="menu-item-desc">Cachaça (ou Vodka), citron vert, sucre — 5cl</div><div class="menu-item-price">10 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🌿</div><div><div class="menu-item-name">Mojito / Mojito Fraise</div><div class="menu-item-desc">Rhum, citron vert, menthe fraîche, eau gazeuse — 5cl</div><div class="menu-item-price">10 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">👑</div><div><div class="menu-item-name">Mojito Royal</div><div class="menu-item-desc">Rhum, citron vert, menthe fraîche, champagne — 6cl</div><div class="menu-item-price">12 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🌅</div><div><div class="menu-item-name">Tequila Sunrise / Planteur</div><div class="menu-item-desc">Tequila, citron, jus d'orange, grenadine — 5cl</div><div class="menu-item-price">9 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🥥</div><div><div class="menu-item-name">Pina Colada</div><div class="menu-item-desc">Rhum, coco, ananas, lait sucré — 5cl</div><div class="menu-item-price">12 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🍹</div><div><div class="menu-item-name">Batida de Fruits</div><div class="menu-item-desc">Cachaça, nectar fruits exotiques, lait sucré — 5cl</div><div class="menu-item-price">10 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🍹</div><div><div class="menu-item-name">Margarita / Cocktail du Jour</div><div class="menu-item-desc">Tequila, jus de citron, triple sec — 5cl</div><div class="menu-item-price">12 € / 8 €</div></div></div>
+          </div>
+          <p style="font-family:'Righteous',sans-serif;color:var(--brasil-yellow);font-size:0.9rem;letter-spacing:0.1em;margin:1.5rem 0 1rem">🧃 COCKTAILS SANS ALCOOL — 25cl · 7€</p>
+          <div class="menu-grid" style="grid-template-columns:1fr">
+            <div class="menu-item"><div class="menu-emoji">🌺</div><div><div class="menu-item-name">Ipanema</div><div class="menu-item-desc">Nectar goyave, banane, mangue, sirop de grenadine</div><div class="menu-item-price">7 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🏖️</div><div><div class="menu-item-name">Copacabana / Virgin Mojito / Virgin Colada</div><div class="menu-item-desc">Passion-fraise-ananas / Menthe citron vert / Coco-ananas</div><div class="menu-item-price">7 €</div></div></div>
+          </div>
+        </div>
+        <div>
+          <p style="font-family:'Righteous',sans-serif;color:var(--brasil-yellow);font-size:0.9rem;letter-spacing:0.1em;margin-bottom:1rem">🥤 SOFTS</p>
+          <div class="menu-grid" style="grid-template-columns:1fr">
+            <div class="menu-item"><div class="menu-emoji">🟡</div><div><div class="menu-item-name">Guaraná</div><div class="menu-item-desc">Le soda brésilien — 33cl</div><div class="menu-item-price">5 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🥤</div><div><div class="menu-item-name">Coca-Cola / Coca-Zéro</div><div class="menu-item-desc">33cl</div><div class="menu-item-price">3,5 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🍊</div><div><div class="menu-item-name">Orangina / Fanta / Ice-Tea</div><div class="menu-item-desc">33cl</div><div class="menu-item-price">3,5 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🥛</div><div><div class="menu-item-name">Sumol Orange / Ananas</div><div class="menu-item-desc">33cl</div><div class="menu-item-price">4 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">💧</div><div><div class="menu-item-name">Perrier / Red Bull</div><div class="menu-item-desc">33cl / 25cl</div><div class="menu-item-price">5 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🍋</div><div><div class="menu-item-name">Limonade / Sirop</div><div class="menu-item-desc">Pêche ou grenadine — 25cl</div><div class="menu-item-price">3 € / 2,5 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🍹</div><div><div class="menu-item-name">Jus de Fruit / Nectar Fruits</div><div class="menu-item-desc">Orange-ananas-passion / Mangue-goyave-banane-fraise — 25cl</div><div class="menu-item-price">5 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">💧</div><div><div class="menu-item-name">Eau plate / pétillante</div><div class="menu-item-desc">50cl</div><div class="menu-item-price">2,5 € / 4 €</div></div></div>
+          </div>
+          <p style="font-family:'Righteous',sans-serif;color:var(--brasil-yellow);font-size:0.9rem;letter-spacing:0.1em;margin:1.5rem 0 1rem">☕ CAFÉS</p>
+          <div class="menu-grid" style="grid-template-columns:1fr">
+            <div class="menu-item"><div class="menu-emoji">☕</div><div><div class="menu-item-name">Expresso / Café crème</div><div class="menu-item-desc">Thé ou Tisane</div><div class="menu-item-price">2,5 € / 3 € — 4 €</div></div></div>
+            <div class="menu-item"><div class="menu-emoji">🇧🇷</div><div><div class="menu-item-name">Café do Brasil</div><div class="menu-item-desc">Café, cachaça, crème sucrée</div><div class="menu-item-price">9 €</div></div></div>
+          </div>
+        </div>
+      </div>
+      <p style="font-family:'Righteous',sans-serif;color:var(--brasil-yellow);font-size:0.9rem;letter-spacing:0.1em;margin:2rem 0 1rem">🍺 BIÈRES</p>
+      <div class="menu-grid">
+        <div class="menu-item"><div class="menu-emoji">🍺</div><div><div class="menu-item-name">Pression</div><div class="menu-item-desc">25cl / 50cl</div><div class="menu-item-price">4 € / 7,5 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🍺</div><div><div class="menu-item-name">Super Bock</div><div class="menu-item-desc">25cl</div><div class="menu-item-price">5 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🍺</div><div><div class="menu-item-name">Desperados / Corona</div><div class="menu-item-desc">33cl</div><div class="menu-item-price">7,5 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🍺</div><div><div class="menu-item-name">Heineken</div><div class="menu-item-desc">25cl</div><div class="menu-item-price">5 €</div></div></div>
+      </div>
+      <p style="font-family:'Righteous',sans-serif;color:var(--brasil-yellow);font-size:0.9rem;letter-spacing:0.1em;margin:2rem 0 1rem">🥃 APÉRITIFS</p>
+      <div class="menu-grid">
+        <div class="menu-item"><div class="menu-emoji">🟡</div><div><div class="menu-item-name">Ricard / Pastis</div><div class="menu-item-desc">2cl</div><div class="menu-item-price">4 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🥃</div><div><div class="menu-item-name">Whisky / Whisky + Soft</div><div class="menu-item-desc">4cl</div><div class="menu-item-price">8 € / 9 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🍸</div><div><div class="menu-item-name">Martini rouge / blanc — Porto</div><div class="menu-item-desc">5cl</div><div class="menu-item-price">6 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🍸</div><div><div class="menu-item-name">Vodka</div><div class="menu-item-desc">5cl</div><div class="menu-item-price">8 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🍹</div><div><div class="menu-item-name">Kir – cassis / pêche</div><div class="menu-item-desc">12cl</div><div class="menu-item-price">6 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🥂</div><div><div class="menu-item-name">Kir Royal</div><div class="menu-item-desc">12cl</div><div class="menu-item-price">11 €</div></div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="tab-desserts">
+      <div class="menu-grid">
+        <div class="menu-item"><div class="menu-emoji">🥥</div><div><div class="menu-item-name">Manjar ⭐</div><div class="menu-item-desc">Crème brésilienne maison à la noix de coco avec son caramel liquide</div><div class="menu-item-price">7,5 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🍓</div><div><div class="menu-item-name">Salade de Fruit</div><div class="menu-item-desc">Fruits frais maison de saison</div><div class="menu-item-price">7,5 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🍎</div><div><div class="menu-item-name">Tarte aux Pommes</div><div class="menu-item-desc">Dessert maison traditionnel</div><div class="menu-item-price">7,5 €</div></div></div>
+        <div class="menu-item"><div class="menu-emoji">🍽️</div><div><div class="menu-item-name">Dessert du Jour</div><div class="menu-item-desc">Préparation maison selon les arrivages du marché</div><div class="menu-item-price">7,5 €</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOIRES ── -->
+<section id="foires">
+  <div class="foires-header reveal">
+    <p class="section-flag" style="color:var(--brasil-yellow);justify-content:center">Em toda a França</p>
+    <h2 class="section-title-big">Retrouvez-nous dans vos <span>Foires</span></h2>
+    <p class="foires-desc">Du Nord au Sud, de l'Est à l'Ouest — nous sillonnons la France pour vous apporter le meilleur du Brésil.</p>
+  </div>
+
+  <!-- Ticker ribbon -->
+  <div class="foires-ribbon">
+    <div class="ribbon-track" id="ribbon"></div>
+  </div>
+
+  <!-- Cards carousel -->
+  <div class="foires-cards-wrapper">
+    <div class="foires-track" id="foiresTrack">
+      <div class="foire-card">
+        <div class="foire-icon">🏙️</div>
+        <div class="foire-ville">Moulins</div>
+        <div class="foire-event">Foire de Moulins</div>
+        <div class="foire-dates">📅 Dates à confirmer 2025</div>
+        <div class="foire-lieu">📍 Moulins, Allier (03)</div>
+        <span class="foire-status upcoming">🟡 À venir</span>
+      </div>
+      <div class="foire-card">
+        <div class="foire-icon">🌊</div>
+        <div class="foire-ville">Rennes</div>
+        <div class="foire-event">Foire de Rennes</div>
+        <div class="foire-dates">📅 Dates à confirmer 2025</div>
+        <div class="foire-lieu">📍 Rennes, Ille-et-Vilaine (35)</div>
+        <span class="foire-status upcoming">🟡 À venir</span>
+      </div>
+      <div class="foire-card">
+        <div class="foire-icon">🏰</div>
+        <div class="foire-ville">Nantes</div>
+        <div class="foire-event">Foire de Nantes</div>
+        <div class="foire-dates">📅 Dates à confirmer 2025</div>
+        <div class="foire-lieu">📍 Exponantes, Loire-Atlantique (44)</div>
+        <span class="foire-status soon">🟠 Bientôt</span>
+      </div>
+      <div class="foire-card">
+        <div class="foire-icon">🌿</div>
+        <div class="foire-ville">Milly-la-Forêt</div>
+        <div class="foire-event">Foire de Milly-la-Forêt</div>
+        <div class="foire-dates">📅 Dates à confirmer 2025</div>
+        <div class="foire-lieu">📍 Milly-la-Forêt, Essonne (91)</div>
+        <span class="foire-status upcoming">🟡 Confirmé</span>
+      </div>
+      <div class="foire-card">
+        <div class="foire-icon">⛏️</div>
+        <div class="foire-ville">Douai</div>
+        <div class="foire-event">Foire de Douai</div>
+        <div class="foire-dates">📅 Dates à confirmer 2025</div>
+        <div class="foire-lieu">📍 Douai, Nord (59)</div>
+        <span class="foire-status upcoming">🟡 Confirmé</span>
+      </div>
+      <div class="foire-card">
+        <div class="foire-icon">🏔️</div>
+        <div class="foire-ville">Montluçon</div>
+        <div class="foire-event">Foire de Montluçon</div>
+        <div class="foire-dates">📅 Dates à confirmer 2025</div>
+        <div class="foire-lieu">📍 Montluçon, Allier (03)</div>
+        <span class="foire-status upcoming">🟡 À venir</span>
+      </div>
+      <div class="foire-card">
+        <div class="foire-icon">⛷️</div>
+        <div class="foire-ville">Grenoble</div>
+        <div class="foire-event">Foire de Grenoble</div>
+        <div class="foire-dates">📅 Dates à confirmer 2025</div>
+        <div class="foire-lieu">📍 Grenoble, Isère (38)</div>
+        <span class="foire-status soon">🟠 Bientôt</span>
+      </div>
+    </div>
+  </div>
+  <div class="foires-nav reveal">
+    <button class="foire-btn" id="foiresPrev">&#8592;</button>
+    <button class="foire-btn" id="foiresNext">&#8594;</button>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-info">
+      <p class="section-flag reveal">Fale Conosco</p>
+      <h2 class="section-title-big reveal">Nous <span>Contacter</span></h2>
+      <p class="reveal" style="color:rgba(13,46,20,0.6);margin-bottom:0.5rem;font-size:0.95rem;line-height:1.7">
+        Une question sur nos foires, une demande de privatisation ou de traiteur pour votre événement ?
+        Contactez-nous, on répond rapidement ! 🇧🇷
+      </p>
+      <div class="contact-cards">
+        <div class="contact-card reveal">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-label">Téléphone</div>
+            <div class="contact-val">+33 (0)6 XX XX XX XX</div>
+          </div>
+        </div>
+        <div class="contact-card reveal">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="34575b5a405557407452554e515a505519564655475d581a5246">[email&#160;protected]</a></div>
+          </div>
+        </div>
+        <div class="contact-card reveal">
+          <div class="contact-icon">📘</div>
+          <div>
+            <div class="contact-label">Facebook & Instagram</div>
+            <div class="contact-val">@FazendaDoBrasilFrance</div>
+          </div>
+        </div>
+        <div class="contact-card reveal">
+          <div class="contact-icon">🗓️</div>
+          <div>
+            <div class="contact-label">Privatisation & Traiteur</div>
+            <div class="contact-val">Sur demande — devis gratuit</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal-right">
+      <div class="contact-form">
+        <h3>🥩 Envoyez-nous un message</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Prénom</label>
+            <input type="text" placeholder="João" />
+          </div>
+          <div class="form-group">
+            <label>Nom</label>
+            <input type="text" placeholder="Silva" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="joao@email.com" />
+        </div>
+        <div class="form-group">
+          <label>Sujet</label>
+          <select>
+            <option value="">Choisir un sujet...</option>
+            <option>Informations sur une foire</option>
+            <option>Demande de traiteur / privatisation</option>
+            <option>Partenariat</option>
+            <option>Presse & Médias</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Olá ! Je voulais savoir..."></textarea>
+        </div>
+        <button class="btn-submit">🇧🇷 Enviar Mensagem</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="/mnt/user-data/uploads/logo_chur.png" alt="Fazenda Do Brasil" />
+        <p class="footer-tagline">"O autêntico sabor do Brasil, em cada feira de França."<br>Le vrai goût du Brésil, dans chaque foire de France.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link">f</a>
+          <a href="#" class="social-link">📷</a>
+          <a href="#" class="social-link">▶</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#about">Notre Histoire</a></li>
+          <li><a href="#plats">Nos Plats</a></li>
+          <li><a href="#menu">La Carte</a></li>
+          <li><a href="#foires">Nos Foires</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Infos</h4>
+        <ul>
+          <li><a href="#">Mentions légales</a></li>
+          <li><a href="#">CGV</a></li>
+          <li><a href="#">Politique cookies</a></li>
+          <li><a href="#">Traiteur & Privé</a></li>
+          <li><a href="#">Presse</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 Churrascaria Fazenda Do Brasil ™ — Tous droits réservés</p>
+      <div class="footer-flags">🇧🇷 🇫🇷</div>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── Cursor
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a,button,.plat-card,.foire-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; cursor.style.background = 'rgba(245,200,0,0.2)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; cursor.style.background = 'transparent'; });
+});
+
+// ── Leaves & particles
+const leafEmojis = ['🌿','🍃','🌴','🦜','🌺','🌸'];
+const lc = document.getElementById('leafContainer');
+for(let i = 0; i < 12; i++) {
+  const l = document.createElement('div');
+  l.className = 'leaf';
+  const r0 = (Math.random()*30-15) + 'deg';
+  const r1 = (Math.random()*30-15) + 'deg';
+  l.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;font-size:${Math.random()*4+2}rem;animation-duration:${Math.random()*6+5}s;animation-delay:-${Math.random()*6}s;--r0:${r0};--r1:${r1}`;
+  l.textContent = leafEmojis[Math.floor(Math.random()*leafEmojis.length)];
+  lc.appendChild(l);
+}
+const pc = document.getElementById('particleContainer');
+const colors = ['#F5C800','#1A6B2A','#009FD4','#E85D04','#E8A800'];
+for(let i = 0; i < 20; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random()*5+2;
+  p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};opacity:0.7;animation-duration:${Math.random()*12+8}s;animation-delay:-${Math.random()*12}s;`;
+  pc.appendChild(p);
+}
+
+// ── Nav
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', scrollY > 80));
+
+// ── Plats carousel data
+const platsData = [
+  { emoji:'🥩', name:'Picanha', desc:'Cœur de rumsteck grillé au gros sel de mer', price:'26 €', badge:'⭐ Star', bg:'linear-gradient(135deg,#3D1A0A,#8B3A10)' },
+  { emoji:'🍗', name:'Poulet Grillé', desc:'Mariné aux herbes fraîches et huile d\'olive', price:'19 €', badge:'Grillades', bg:'linear-gradient(135deg,#2A1A0A,#8B6010)' },
+  { emoji:'🥓', name:'Rôtie de Porc', desc:'Marinée aux herbes fraîches, huile d\'olive', price:'21 €', badge:'Grillades', bg:'linear-gradient(135deg,#3D200A,#7A3A10)' },
+  { emoji:'🍖', name:'Gigot d\'Agneau', desc:'Mariné aux herbes fraîches, huile d\'olive', price:'26 €', badge:'Prestige', bg:'linear-gradient(135deg,#1A1A0A,#6B5A10)' },
+  { emoji:'🌊', name:'Muqueca de Peixe', desc:'Poisson au lait de coco, riz blanc parfumé', price:'25 €', badge:'Poisson', bg:'linear-gradient(135deg,#0A1A3D,#10458B)' },
+  { emoji:'🦐', name:'Gambas', desc:'5 pièces, sauce typique bahianaise, riz parfumé', price:'26 €', badge:'Poisson', bg:'linear-gradient(135deg,#0A2A2A,#107070)' },
+  { emoji:'🥗', name:'Salade de Thon', desc:'Mesclun, tomates, crudités, thon, œufs', price:'17 €', badge:'Salade', bg:'linear-gradient(135deg,#0A2A0A,#2A6A2A)' },
+  { emoji:'🌴', name:'Salade Tropicale', desc:'Mesclun, crudités, cœurs de palmier, ananas, crevettes', price:'19 €', badge:'Salade', bg:'linear-gradient(135deg,#0A3D1A,#10882A)' },
+  { emoji:'🍽️', name:'Formule Fazenda', desc:'3 viandes : Poulet, saucisse, rôti de porc — marinées aux herbes', price:'26 €', badge:'Formule', bg:'linear-gradient(135deg,#2A0A3D,#6A2A8B)' },
+  { emoji:'🔥', name:'Formule Churrasco', desc:'Entrée + 5 viandes (Poulet, saucisse, porc, agneau, picanha) + Dessert', price:'38 €', badge:'🏆 Best', bg:'linear-gradient(135deg,#3D1A00,#AA4400)' },
+  { emoji:'🍮', name:'Manjar', desc:'Crème brésilienne maison à la noix de coco, caramel liquide', price:'7,5 €', badge:'Dessert', bg:'linear-gradient(135deg,#3D1A1A,#8B3A3A)' },
+  { emoji:'🍎', name:'Tarte aux Pommes', desc:'Dessert maison de saison', price:'7,5 €', badge:'Dessert', bg:'linear-gradient(135deg,#2A1A0A,#7A4A10)' },
+  { emoji:'🍹', name:'Caïpirinha', desc:'Cachaça, citron vert, sucre de canne — 5cl', price:'10 €', badge:'Cocktail', bg:'linear-gradient(135deg,#0A3D10,#10882A)' },
+  { emoji:'🍸', name:'Mojito', desc:'Rhum, citron vert, menthe fraîche, eau gazeuse — 5cl', price:'10 €', badge:'Cocktail', bg:'linear-gradient(135deg,#0A2A1A,#206040)' },
+  { emoji:'🟡', name:'Guaraná Antarctica', desc:'Le soda brésilien emblématique — 33cl', price:'5 €', badge:'Soft', bg:'linear-gradient(135deg,#1A2A0A,#4A6A10)' },
+  { emoji:'🍺', name:'Pression', desc:'Bière pression fraîche — 50cl', price:'7,5 €', badge:'Bière', bg:'linear-gradient(135deg,#2A2A0A,#6A6A10)' },
+];
+
+function makeCard(d) {
+  return `<div class="plat-card">
+    <div class="plat-img"><div class="plat-img-bg" style="background:${d.bg}"></div>${d.emoji}<span class="plat-badge">${d.badge}</span></div>
+    <div class="plat-body">
+      <div class="plat-name">${d.name}</div>
+      <div class="plat-desc">${d.desc}</div>
+      <div class="plat-footer"><span class="plat-price">${d.price}</span><span class="plat-flag">🇧🇷</span></div>
+    </div>
+  </div>`;
+}
+// Double for infinite scroll
+const row1HTML = [...platsData, ...platsData].map(makeCard).join('');
+const row2Data = [...platsData].reverse();
+const row2HTML = [...row2Data, ...row2Data].map(makeCard).join('');
+document.getElementById('row1').innerHTML = row1HTML;
+document.getElementById('row2').innerHTML = row2HTML;
+
+// ── Menu tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const panel = document.getElementById('tab-' + btn.dataset.tab);
+    if(panel) panel.classList.add('active');
+  });
+});
+
+// ── Foires ribbon
+const foires = ['Moulins','Rennes','Nantes','Milly-la-Forêt','Douai','Montluçon','Grenoble','Moulins','Rennes','Nantes','Milly-la-Forêt','Douai','Montluçon','Grenoble'];
+const ribbonContent = [...foires,...foires].map(f => `<span class="ribbon-item"><span class="ribbon-dot"></span>${f}</span>`).join('');
+document.getElementById('ribbon').innerHTML = ribbonContent;
+
+// ── Foires carousel
+let foiresCurrent = 0;
+const foiresTrack = document.getElementById('foiresTrack');
+const foiresCards = foiresTrack.querySelectorAll('.foire-card');
+function visibleFoires() { return window.innerWidth < 600 ? 1 : window.innerWidth < 900 ? 2 : 3; }
+function goFoires(dir) {
+  const max = foiresCards.length - visibleFoires();
+  foiresCurrent = Math.max(0, Math.min(foiresCurrent + dir, max));
+  const w = foiresCards[0].offsetWidth + 24;
+  foiresTrack.style.transform = `translateX(-${foiresCurrent * w}px)`;
+}
+document.getElementById('foiresPrev').onclick = () => goFoires(-1);
+document.getElementById('foiresNext').onclick = () => goFoires(1);
+
+// ── Scroll reveal
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => {
+    i
